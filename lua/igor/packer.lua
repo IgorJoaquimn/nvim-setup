@@ -26,10 +26,7 @@ return require('packer').startup(function(use)
     }
 
     -- TreeSitter
-    use { 
-        'nvim-treesitter/nvim-treesitter',
-        {run = ':TSUpdate'}
-    }
+    use {'nvim-treesitter/nvim-treesitter',{run = ':TSUpdate'}}
 
     -- TreeSitter Playground
     use {'nvim-treesitter/playground'}
@@ -51,4 +48,7 @@ return require('packer').startup(function(use)
     use {'hrsh7th/nvim-cmp'}
     use {'williamboman/mason.nvim'}
     use {'williamboman/mason-lspconfig.nvim'}
+
+    -- Git Signs
+    use {'lewis6991/gitsigns.nvim'}
 end)
