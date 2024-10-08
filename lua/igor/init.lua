@@ -1,3 +1,3 @@
 require("igor.remap")
 require("igor.set")
-require("igor.packer")
+require("igor.lazy")

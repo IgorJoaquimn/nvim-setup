@@ -6,4 +6,6 @@ vim.keymap.set('n', '<leader>ps', function()
 end) 
 
 
-
+return{
+    'nvim-telescope/telescope.nvim',
+}

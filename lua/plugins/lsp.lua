@@ -63,3 +63,7 @@ cmp.setup({
     end,
   },
 })
+
+return {
+    'VonHeikemen/lsp-zero.nvim'
+}
