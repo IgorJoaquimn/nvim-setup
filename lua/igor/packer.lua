@@ -26,7 +26,7 @@ return require('packer').startup(function(use)
     }
 
     -- TreeSitter
-    use {'nvim-treesitter/nvim-treesitter',{run = ':TSUpdate'}}
+    use {'nvim-treesitter/nvim-treesitter'}
 
     -- TreeSitter Playground
     use {'nvim-treesitter/playground'}
@@ -51,4 +51,12 @@ return require('packer').startup(function(use)
 
     -- Git Signs
     use {'lewis6991/gitsigns.nvim'}
+
+    -- Remote Nvim
+    use {"amitds1997/remote-nvim.nvim",version = "*", -- Pin to GitHub releases
+        requires = {
+            {"nvim-lua/plenary.nvim",}, -- For standard functions
+            {"MunifTanjim/nui.nvim",}, -- To build the plugin UI
+            {"nvim-telescope/telescope.nvim",} -- For picking b/w different remote methods
+        },config = true, }
 end)
