@@ -11,3 +11,7 @@ vim.keymap.set("n","<C-n>", function() ui.nav_file(3) end)
 vim.keymap.set("n","<C-s>", function() ui.nav_file(4) end)
 
 vim.keymap.set("n","<leader>t", function() term.gotoTerminal(1) end)
+
+return {
+    'ThePrimeagen/harpoon',
+}
