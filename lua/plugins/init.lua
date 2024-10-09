@@ -1,10 +1,4 @@
 return {
-    -- Telescope 
-    {
-        'nvim-telescope/telescope.nvim', tag = '0.1.8',
-        dependancies = { {'nvim-lua/plenary.nvim'} }
-    },
-
     -- Colorscheme
     { 
         "rose-pine/neovim", 
@@ -17,15 +11,7 @@ return {
     -- TreeSitter Playground
     'nvim-treesitter/playground',
 
-    -- Harpoon
     'nvim-lua/plenary.nvim',
-    'ThePrimeagen/harpoon',
-
-    -- Undotree
-    'mbbill/undotree',
-
-    -- Vim Fugitive
-    'tpope/vim-fugitive',
 
     -- LSP Zero
     {'VonHeikemen/lsp-zero.nvim', branch = 'v4.x'},
@@ -35,18 +21,4 @@ return {
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
 
-    -- Git Signs
-    'lewis6991/gitsigns.nvim',
- 
-    -- Remote-nvim
-    {
-        "amitds1997/remote-nvim.nvim",
-        version = "*", -- Pin to GitHub releases
-        dependencies = {
-            "nvim-lua/plenary.nvim", -- For standard functions
-            "MunifTanjim/nui.nvim", -- To build the plugin UI
-            "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
-        },
-        config = true,
-    },
 }
