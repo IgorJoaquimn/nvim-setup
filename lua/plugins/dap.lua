@@ -14,18 +14,33 @@ return {
 
             require("dapui").setup()
             require("dap-go").setup()
-                                       
+
             -- Adapters
             -- C++, C, Rust
-            require("dap").adapters.codelldb = {
+            dap.adapters.codelldb = {
                 type = "server",
                 port = "${port}",
                 executable = {
-                    command = "codelldb",
+                    command = "/home/igorsc/.local/share/nvim/mason/bin/codelldb",
                     args = { "--port", "${port}" },
                 },
             }
 
+            dap.configurations.c = {
+                {
+                    type = 'codelldb',
+                    request = 'launch',
+                    program = function()
+                        return vim.fn.input('Path to executable: ', vim.fn.getcwd()..'/', 'file')
+                    end,
+                    cwd = '${workspaceFolder}',
+                    terminal = 'integrated'
+                }
+            }
+
+            dap.configurations.cpp = dap.configurations.c
+
+            -- Remaps
             vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
             vim.keymap.set("n", "<leader>dc", dap.run_to_cursor)
 
@@ -34,12 +49,12 @@ return {
                 require("dapui").eval(nil, { enter = true })
             end)
 
-            vim.keymap.set("n", "<F1>", dap.continue)
-            vim.keymap.set("n", "<F2>", dap.step_into)
-            vim.keymap.set("n", "<F3>", dap.step_over)
-            vim.keymap.set("n", "<F4>", dap.step_out)
-            vim.keymap.set("n", "<F5>", dap.step_back)
-            vim.keymap.set("n", "<F13>", dap.restart)
+            vim.keymap.set("n", "<leader>d1", dap.continue)
+            vim.keymap.set("n", "<leader>d2", dap.step_into)
+            vim.keymap.set("n", "<leader>d3", dap.step_over)
+            vim.keymap.set("n", "<leader>d4", dap.step_out)
+            vim.keymap.set("n", "<leader>d5", dap.step_back)
+            vim.keymap.set("n", "<leader>d6", dap.restart)
 
             dap.listeners.before.attach.dapui_config = function()
                 ui.open()
