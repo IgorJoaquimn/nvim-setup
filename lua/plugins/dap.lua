@@ -1,3 +1,40 @@
+function Remaps()
+    local dap = require "dap"
+    -- Remaps
+    vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
+    vim.keymap.set("n", "<leader>dc", dap.run_to_cursor)
+
+    -- Eval var under cursor
+    vim.keymap.set("n", "<leader>?", function()
+        require("dapui").eval(nil, { enter = true })
+    end)
+
+    vim.keymap.set("n", "<leader>d1", dap.continue)
+    vim.keymap.set("n", "<leader>d2", dap.step_into)
+    vim.keymap.set("n", "<leader>d3", dap.step_over)
+    vim.keymap.set("n", "<leader>d4", dap.step_out)
+    vim.keymap.set("n", "<leader>d5", dap.step_back)
+    vim.keymap.set("n", "<leader>d6", dap.restart)
+end
+
+function EventListener()
+
+    local dap = require "dap"
+    local ui = require "dapui"
+    dap.listeners.before.attach.dapui_config = function()
+        ui.open()
+    end
+    dap.listeners.before.launch.dapui_config = function()
+        ui.open()
+    end
+    dap.listeners.before.event_terminated.dapui_config = function()
+        ui.close()
+    end
+    dap.listeners.before.event_exited.dapui_config = function()
+        ui.close()
+    end
+end
+
 return {
     {
         "mfussenegger/nvim-dap",
@@ -10,13 +47,12 @@ return {
         },
         config = function()
             local dap = require "dap"
-            local ui = require "dapui"
 
             require("dapui").setup()
             require("dap-go").setup()
 
             -- Adapters
-            -- C++, C, Rust
+            -- C, C++, Rust
             dap.adapters.codelldb = {
                 type = "server",
                 port = "${port}",
@@ -26,48 +62,22 @@ return {
                 },
             }
 
-            dap.configurations.c = {
-                {
-                    type = 'codelldb',
-                    request = 'launch',
-                    program = function()
-                        return vim.fn.input('Path to executable: ', vim.fn.getcwd()..'/', 'file')
-                    end,
-                    cwd = '${workspaceFolder}',
-                    terminal = 'integrated'
-                }
+            local codelldb = {
+                type = 'codelldb',
+                request = 'launch',
+                program = function()
+                    return vim.fn.input('Path to executable: ', vim.fn.getcwd()..'/', 'file')
+                end,
+                cwd = '${workspaceFolder}',
+                terminal = 'integrated'
             }
 
-            dap.configurations.cpp = dap.configurations.c
+            dap.configurations.c = codelldb
+            dap.configurations.cpp = codelldb
+            dap.configurations.rust = codelldb
 
-            -- Remaps
-            vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
-            vim.keymap.set("n", "<leader>dc", dap.run_to_cursor)
-
-            -- Eval var under cursor
-            vim.keymap.set("n", "<leader>?", function()
-                require("dapui").eval(nil, { enter = true })
-            end)
-
-            vim.keymap.set("n", "<leader>d1", dap.continue)
-            vim.keymap.set("n", "<leader>d2", dap.step_into)
-            vim.keymap.set("n", "<leader>d3", dap.step_over)
-            vim.keymap.set("n", "<leader>d4", dap.step_out)
-            vim.keymap.set("n", "<leader>d5", dap.step_back)
-            vim.keymap.set("n", "<leader>d6", dap.restart)
-
-            dap.listeners.before.attach.dapui_config = function()
-                ui.open()
-            end
-            dap.listeners.before.launch.dapui_config = function()
-                ui.open()
-            end
-            dap.listeners.before.event_terminated.dapui_config = function()
-                ui.close()
-            end
-            dap.listeners.before.event_exited.dapui_config = function()
-                ui.close()
-            end
+            Remaps()
+            EventListener()
         end,
     },
 }
