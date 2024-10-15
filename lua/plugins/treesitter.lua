@@ -8,6 +8,7 @@ local M = {
         local configs = require('nvim-treesitter.configs')
 
         configs.setup({
+            ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline","javascript", "python" },
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
 
