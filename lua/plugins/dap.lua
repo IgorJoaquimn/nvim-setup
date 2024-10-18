@@ -2,19 +2,19 @@ function Remaps()
     local dap = require "dap"
     -- Remaps
     vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
-    vim.keymap.set("n", "<leader>dc", dap.run_to_cursor)
+    vim.keymap.set("n", "<leader>dc", dap.continue)
+    vim.keymap.set("n", "<leader>d1", dap.run_to_cursor)
+    vim.keymap.set("n", "<leader>d2", dap.step_into)
+    vim.keymap.set("n", "<leader>d3", dap.step_over)
+    vim.keymap.set("n", "<leader>d4", dap.step_out)
+    vim.keymap.set("n", "<leader>d5", dap.step_back)
+    vim.keymap.set("n", "<leader>d6", dap.restart)
 
     -- Eval var under cursor
     vim.keymap.set("n", "<leader>?", function()
         require("dapui").eval(nil, { enter = true })
     end)
 
-    vim.keymap.set("n", "<leader>d1", dap.continue)
-    vim.keymap.set("n", "<leader>d2", dap.step_into)
-    vim.keymap.set("n", "<leader>d3", dap.step_over)
-    vim.keymap.set("n", "<leader>d4", dap.step_out)
-    vim.keymap.set("n", "<leader>d5", dap.step_back)
-    vim.keymap.set("n", "<leader>d6", dap.restart)
 end
 
 function EventListener()
@@ -72,9 +72,9 @@ return {
                 terminal = 'integrated'
             }
 
-            dap.configurations.c = codelldb
-            dap.configurations.cpp = codelldb
-            dap.configurations.rust = codelldb
+            dap.configurations.c = {codelldb}
+            dap.configurations.cpp = {codelldb}
+            dap.configurations.rust = {codelldb}
 
             Remaps()
             EventListener()
