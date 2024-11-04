@@ -7,5 +7,6 @@ return {
         })
 
         vim.keymap.set("n", "<leader>rt", "<CMD>OverseerRun<CR>")
+        vim.keymap.set("n", "<leader>ro", "<CMD>OverseerOpen<CR>")
     end
 }
