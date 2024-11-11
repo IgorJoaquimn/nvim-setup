@@ -76,6 +76,15 @@ return {
             dap.configurations.cpp = {codelldb}
             dap.configurations.rust = {codelldb}
 
+            dap.configurations.python = {
+                {
+                    type = 'python';
+                    request = 'launch';
+                    name = "Launch file";
+                    program = "${file}";
+                },
+            }
+
             Remaps()
             EventListener()
         end,
