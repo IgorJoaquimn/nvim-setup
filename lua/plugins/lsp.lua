@@ -93,6 +93,8 @@ return {
         })
 
         vim.diagnostic.config({
+            virtual_text={format=function() return "" end},
+            signs=false,
             update_in_insert = true,
             float = {
                 focusable = false,
@@ -105,5 +107,8 @@ return {
         })
         vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("n", "gj", "<cmd>lua vim.diagnostic.goto_next({float={source=true}})<CR>", {noremap=true})
+        vim.api.nvim_set_keymap("n", "gk", "<cmd>lua vim.diagnostic.goto_prev({float={source=true}})<CR>", {noremap=true})
     end
 }

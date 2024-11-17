@@ -3,10 +3,8 @@ local M = {
     build = function()
         require("nvim-treesitter.install").update({ with_sync = true })()
     end,
-
     config = function()
         local configs = require('nvim-treesitter.configs')
-
         configs.setup({
             ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline","javascript", "python" },
             -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -16,6 +14,7 @@ local M = {
             -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
             auto_install = true,
 
+            indent = { enable = true },
             highlight = {
                 enable = true,
 
