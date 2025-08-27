@@ -1,22 +1,3 @@
-function Remaps()
-    local dap = require "dap"
-    -- Remaps
-    vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
-    vim.keymap.set("n", "<leader>dc", dap.continue)
-    vim.keymap.set("n", "<leader>d1", dap.run_to_cursor)
-    vim.keymap.set("n", "<leader>d2", dap.step_into)
-    vim.keymap.set("n", "<leader>d3", dap.step_over)
-    vim.keymap.set("n", "<leader>d4", dap.step_out)
-    vim.keymap.set("n", "<leader>d5", dap.step_back)
-    vim.keymap.set("n", "<leader>d6", dap.restart)
-
-    -- Eval var under cursor
-    vim.keymap.set("n", "<leader>?", function()
-        require("dapui").eval(nil, { enter = true })
-    end)
-
-end
-
 function EventListener()
 
     local dap = require "dap"
@@ -44,6 +25,17 @@ return {
             "theHamsta/nvim-dap-virtual-text",
             "nvim-neotest/nvim-nio",
             "williamboman/mason.nvim",
+        },
+        keys = {
+            { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "DAP Toggle Breakpoint" },
+            { "<leader>dc", function() require("dap").continue() end, desc = "DAP Continue" },
+            { "<leader>d1", function() require("dap").run_to_cursor() end, desc = "DAP Run to Cursor" },
+            { "<leader>d2", function() require("dap").step_into() end, desc = "DAP Step Into" },
+            { "<leader>d3", function() require("dap").step_over() end, desc = "DAP Step Over" },
+            { "<leader>d4", function() require("dap").step_out() end, desc = "DAP Step Out" },
+            { "<leader>d5", function() require("dap").step_back() end, desc = "DAP Step Back" },
+            { "<leader>d6", function() require("dap").restart() end, desc = "DAP Restart" },
+            { "<leader>?", function() require("dapui").eval(nil, { enter = true }) end, desc = "DAP Eval" },
         },
         config = function()
             local dap = require "dap"
@@ -85,7 +77,6 @@ return {
                 },
             }
 
-            Remaps()
             EventListener()
         end,
     },
