@@ -10,6 +10,36 @@ return {
         end, desc = "Grep String" },
     },
     config = function()
-        -- Any additional telescope configuration can go here
+        require('telescope').setup({
+            defaults = {
+                file_ignore_patterns = {
+                    "node_modules/",
+                    ".git/",
+                    "%.git/",
+                    "dist/",
+                    "build/",
+                    "target/",
+                    "%.DS_Store",
+                    "%.pyc",
+                    "__pycache__/",
+                },
+            },
+            pickers = {
+                find_files = {
+                    file_ignore_patterns = {
+                        "node_modules/",
+                        ".git/",
+                        "%.git/",
+                        "dist/",
+                        "build/",
+                        "target/",
+                        "%.DS_Store",
+                        "%.pyc",
+                        "__pycache__/",
+                    },
+                    hidden = false, -- Set to true if you want to see hidden files
+                },
+            },
+        })
     end,
 }
