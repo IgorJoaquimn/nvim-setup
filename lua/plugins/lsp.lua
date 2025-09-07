@@ -1,33 +1,59 @@
+-- Alternative LSP setup with blink.cmp (more modern and stable)
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
-        "hrsh7th/nvim-cmp",
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
+        {
+            "saghen/blink.cmp",
+            dependencies = "rafamadriz/friendly-snippets",
+            version = "v0.*",
+            opts = {
+                keymap = {
+                    preset = 'none',
+                    -- Accept the selected suggestion
+                    ['<C-Space>'] = { 'select_and_accept' },
+                    
+                    -- Navigation with arrow keys
+                    ['<Up>'] = { 'select_prev', 'fallback' },
+                    ['<Down>'] = { 'select_next', 'fallback' },
+                    
+                    -- Alternative navigation (keeping your C-p/C-n as backup)
+                    ['<C-p>'] = { 'select_prev', 'fallback' },
+                    ['<C-n>'] = { 'select_next', 'fallback' },
+                    
+                    -- Other useful keys
+                    ['<C-e>'] = { 'hide' },                        -- Hide completion
+                    ['<Esc>'] = { 'hide', 'fallback' },            -- Escape to hide
+                    
+                    -- Documentation scrolling
+                    ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+                    ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+                },
+                appearance = {
+                    use_nvim_cmp_as_default = true,
+                    nerd_font_variant = 'mono'
+                },
+                sources = {
+                    default = { 'lsp', 'path', 'snippets', 'buffer' },
+                },
+                completion = {
+                    documentation = {
+                        auto_show = true,
+                        auto_show_delay_ms = 500,
+                    }
+                }
+            }
+        }
     },
 
     config = function()
-        -- Import modules
-        local cmp = require('cmp')
-        local cmp_lsp = require("cmp_nvim_lsp")
         local lspconfig = require("lspconfig")
-        local lspkind = require('lspkind')
-
-        -- LSP capabilities
-        local capabilities = vim.tbl_deep_extend(
-            "force",
-            {},
-            vim.lsp.protocol.make_client_capabilities(),
-            cmp_lsp.default_capabilities()
-        )
-
+        
+        -- LSP capabilities with blink.cmp
+        local capabilities = require('blink.cmp').get_lsp_capabilities()
+        
         -- Plugin setups
         require("fidget").setup({})
         require("mason").setup()
@@ -80,39 +106,6 @@ return {
             }
         })
 
-        -- nvim-cmp completion setup
-        cmp.setup({
-            snippet = {
-                expand = function(args)
-                    require('luasnip').lsp_expand(args.body)
-                end,
-            },
-            mapping = cmp.mapping.preset.insert({
-                ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-                ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-                ['<C-Space>'] = cmp.mapping.confirm({ select = true }),
-                ["<C-Cr>"] = cmp.mapping.complete(),
-            }),
-            sources = cmp.config.sources({
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' },
-                { name = 'copilot' },
-            }, {
-                { name = 'buffer' },
-            }),
-            formatting = {
-                format = lspkind.cmp_format({
-                    mode = 'symbol',
-                    maxwidth = 50,
-                    ellipsis_char = '...',
-                    show_labelDetails = true,
-                    before = function(_, vim_item)
-                        return vim_item
-                    end
-                })
-            }
-        })
-
         -- Diagnostics configuration
         vim.diagnostic.config({
             virtual_text = { format = function() return "" end },
@@ -129,7 +122,6 @@ return {
         })
 
         -- Keymaps for LSP
-        -- Keymaps for LSP (using LazyVim style)
         local function map(mode, lhs, rhs, desc)
             vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
         end

@@ -8,6 +8,7 @@ return {
         { "<leader>cb", "<cmd>CMakeBuild<cr>", desc = "CMake Build" },
         { "<leader>cr", "<cmd>CMakeRun<cr>", desc = "CMake Run" },
         { "<leader>cg", "<cmd>CMakeGenerate<cr>", desc = "CMake Generate" },
+        { "<leader>cd", "<cmd>CMakeDebug<cr>", desc = "CMake Debug" },
         { "<leader>cc", "<cmd>CMakeClean<cr>", desc = "CMake Clean" },
         { "<leader>cs", "<cmd>CMakeSettings<cr>", desc = "CMake Settings" },
         { "<leader>ct", "<cmd>CMakeSelectBuildType<cr>", desc = "CMake Select Build Type" },
