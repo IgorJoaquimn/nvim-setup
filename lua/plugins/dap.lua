@@ -49,7 +49,11 @@ return {
                 type = "server",
                 port = "${port}",
                 executable = {
+<<<<<<< HEAD
                     command = "/home/joaquino/.local/share/nvim/mason/bin/codelldb",
+=======
+                    command = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/codelldb",
+>>>>>>> ea0b9576e5ea380bf52eca27e5420300715959e3
                     args = { "--port", "${port}" },
                 },
             }
