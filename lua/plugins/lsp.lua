@@ -2,7 +2,6 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-<<<<<<< HEAD
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "j-hui/fidget.nvim",
@@ -55,22 +54,6 @@ return {
         -- LSP capabilities with blink.cmp
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         
-=======
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    "j-hui/fidget.nvim",
-    },
-
-    config = function()
-        -- Import modules
-        local cmp_lsp = require("cmp_nvim_lsp")
-        local lspconfig = require("lspconfig")
-
-        -- Simple, default LSP capabilities
-        local capabilities = cmp_lsp.default_capabilities()
-
->>>>>>> ea0b9576e5ea380bf52eca27e5420300715959e3
         -- Plugin setups
         require("fidget").setup({})
         require("mason").setup()
@@ -114,18 +97,13 @@ return {
             }
         })
 
-<<<<<<< HEAD
         -- Diagnostics configuration
-=======
-        -- Simple diagnostics
->>>>>>> ea0b9576e5ea380bf52eca27e5420300715959e3
         vim.diagnostic.config({
             virtual_text = false,
             signs = true,
             update_in_insert = false,
         })
 
-<<<<<<< HEAD
         -- Keymaps for LSP
         local function map(mode, lhs, rhs, desc)
             vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
@@ -136,12 +114,5 @@ return {
         map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
         map("n", "gj", function() vim.diagnostic.goto_next({ float = { source = true } }) end, "Next diagnostic")
         map("n", "gk", function() vim.diagnostic.goto_prev({ float = { source = true } }) end, "Prev diagnostic")
-=======
-        -- Basic LSP keymaps
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-        vim.keymap.set("n", "gj", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-        vim.keymap.set("n", "gk", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
->>>>>>> ea0b9576e5ea380bf52eca27e5420300715959e3
     end
 }
