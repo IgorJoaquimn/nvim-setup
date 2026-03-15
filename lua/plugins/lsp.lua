@@ -49,8 +49,6 @@ return {
     },
 
     config = function()
-        local lspconfig = require("lspconfig")
-        
         -- LSP capabilities with blink.cmp
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         
@@ -58,11 +56,13 @@ return {
         require("fidget").setup({})
         require("mason").setup()
 
-        -- Simple LSP server setup
+        -- Simple LSP server setup (Neovim 0.11+ way)
         local function setup_server(server, opts)
             opts = opts or {}
             opts.capabilities = capabilities
-            lspconfig[server].setup(opts)
+            -- Define configuration and enable the server
+            vim.lsp.config(server, opts)
+            vim.lsp.enable(server)
         end
 
         -- LSP servers to install and configure
@@ -77,7 +77,9 @@ return {
                 -- Zig LSP
                 zls = function()
                     setup_server("zls", {
-                        root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+                        root_dir = function(fname)
+                            return vim.fs.root(fname, { ".git", "build.zig", "zls.json" })
+                        end,
                     })
                 end,
 
@@ -104,15 +106,20 @@ return {
             update_in_insert = false,
         })
 
-        -- Keymaps for LSP
-        local function map(mode, lhs, rhs, desc)
-            vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
-        end
+        -- Keymaps for LSP (using LspAttach for better compatibility with 0.11+)
+        vim.api.nvim_create_autocmd('LspAttach', {
+            callback = function(args)
+                local bufnr = args.buf
+                local function map(mode, lhs, rhs, desc)
+                    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
+                end
 
-        map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-        map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-        map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
-        map("n", "gj", function() vim.diagnostic.goto_next({ float = { source = true } }) end, "Next diagnostic")
-        map("n", "gk", function() vim.diagnostic.goto_prev({ float = { source = true } }) end, "Prev diagnostic")
+                map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+                map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+                map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
+                map("n", "gj", function() vim.diagnostic.goto_next({ float = { source = true } }) end, "Next diagnostic")
+                map("n", "gk", function() vim.diagnostic.goto_prev({ float = { source = true } }) end, "Prev diagnostic")
+            end,
+        })
     end
 }
