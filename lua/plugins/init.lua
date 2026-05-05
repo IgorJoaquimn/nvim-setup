@@ -10,7 +10,5 @@ return {
         end
     },
 
-    -- TreeSitter Playground
-    'nvim-treesitter/playground',
     'nvim-lua/plenary.nvim',
 }
